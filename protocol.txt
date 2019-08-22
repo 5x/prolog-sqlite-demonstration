@@ -1,0 +1,175 @@
+[1mtrue.[0m
+
+2 ?- [library(prosqlite)].
+
+
+[1mtrue.[0m
+
+3 ?- createConnection('family').
+
+
+SQLite Driver version: 1:2:0
+Connection status to SQLite DB: row(OK)
+Now u can use 'sqlConn' for queries.
+[1mtrue.[0m
+
+4 ?- runTestQueries().
+
+
+
+
+Executing SQL query:
+SELECT * FROM person;
+
+Result:
+row(1,Олексій,1,,)
+row(2,Віктор,1,8,18)
+row(3,Богдан,1,,)
+row(4,Максим,1,,)
+row(5,Іван,1,,)
+row(6,Петро,1,3,13)
+row(7,Василь,1,3,13)
+row(8,NEW GRIGORIY NAME,1,4,15)
+row(9,Анатолій,1,5,16)
+row(10,Олександр,1,17,6)
+row(11,Сергій,1,10,20)
+row(12,Оксана,2,,)
+row(13,Зінаїда,2,,)
+row(14,Олена,2,1,12)
+row(15,Валерія,2,,)
+row(16,Лариса,2,,)
+row(17,Галина,2,1,12)
+row(18,Марина,2,5,16)
+row(19,Світлана,2,5,16)
+row(20,Наталія,2,8,18)
+row(21,Катерина,2,10,20)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT name FROM person WHERE father_id = 3 AND person_id <> 7;
+
+Result:
+row(Петро)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT name, person_id FROM person WHERE father_id = 5 AND gender = 2;
+
+Result:
+row(Марина,18)
+row(Світлана,19)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT "person"."name" FROM person INNER JOIN family_relation ON "family_relation"."husband_id"="person"."person_id";
+
+Result:
+row(Олексій)
+row(Богдан)
+row(Максим)
+row(Іван)
+row(Петро)
+row(NEW GRIGORIY NAME)
+row(Олександр)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT * FROM person WHERE person_id = 8;
+
+Result:
+row(8,NEW GRIGORIY NAME,1,4,15)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+UPDATE person SET name='NEW GRIGORIY NAME' WHERE person_id = 8;
+
+Result:
+row(1)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT * FROM person WHERE person_id = 8;
+
+Result:
+row(8,NEW GRIGORIY NAME,1,4,15)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+INSERT INTO person (name, gender) VALUES ('Stepa', 1);
+
+Result:
+row(1)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+SELECT * FROM person WHERE name = 'Stepa';
+
+Result:
+row(22,Stepa,1,,)
+No more rows to fetch.
+-----
+[1mtrue [0m;[1m;[0m
+
+
+Executing SQL query:
+DELETE FROM person WHERE name = 'Stepa';
+
+Result:
+row(1)
+No more rows to fetch.
+-----
+[1mtrue.[0m
+
+5 ?- sqlite_query(sqlConn, "SELECT * FROM person;", Row).
+
+
+Row = row(1, 'Олексій', 1, '', '') ;[1m;[0m
+Row = row(2, 'Віктор', 1, '8', '18') ;[1m;[0m
+Row = row(3, 'Богдан', 1, '', '') ;[1m;[0m
+Row = row(4, 'Максим', 1, '', '') ;[1m;[0m
+Row = row(5, 'Іван', 1, '', '') ;[1m;[0m
+Row = row(6, 'Петро', 1, '3', '13') ;[1m;[0m
+Row = row(7, 'Василь', 1, '3', '13') ;[1m;[0m
+Row = row(8, 'NEW GRIGORIY NAME', 1, '4', '15') ;[1m;[0m
+Row = row(9, 'Анатолій', 1, '5', '16') ;[1m;[0m
+Row = row(10, 'Олександр', 1, '17', '6') ;[1m;[0m
+Row = row(11, 'Сергій', 1, '10', '20') ;[1m;[0m
+Row = row(12, 'Оксана', 2, '', '') ;[1m;[0m
+Row = row(13, 'Зінаїда', 2, '', '') ;[1m;[0m
+Row = row(14, 'Олена', 2, '1', '12') ;[1m;[0m
+Row = row(15, 'Валерія', 2, '', '') ;[1m;[0m
+Row = row(16, 'Лариса', 2, '', '') ;[1m;[0m
+Row = row(17, 'Галина', 2, '1', '12') ;[1m;[0m
+Row = row(18, 'Марина', 2, '5', '16') ;[1m;[0m
+Row = row(19, 'Світлана', 2, '5', '16') ;[1m;[0m
+Row = row(20, 'Наталія', 2, '8', '18') ;[1m;[0m
+Row = row(21, 'Катерина', 2, '10', '20') ;[1m;[0m
+[1;31mfalse.[0m
+
+6 ?- noprotocol.
+
+
